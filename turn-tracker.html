@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PC Turn Tracker</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f6f8fa;
+    color: #111;
+    text-align: center;
+    padding-top: 100px;
+  }
+  h1 {
+    font-size: 3em;
+    margin-bottom: 10px;
+    transition: color 0.3s ease;
+  }
+  .info { font-size: 1.2em; color: #555; }
+  .time { font-size: 1.4em; margin-top: 8px; font-weight: bold; }
+</style>
+</head>
+<body>
+  <h1 id="turn">Loading...</h1>
+  <div class="info" id="next"></div>
+  <div class="time" id="count"></div>
+
+<script>
+(function(){
+  // SETTINGS
+  const nameA = "S";           // first person
+  const nameB = "H";           // second person
+  const refStart = new Date(2025, 9, 27, 6, 0, 0); // (month is 0-based, so 9 = October)
+  const turnHours = 24;        // switch every 24 hours
+
+  const turnEl = document.getElementById("turn");
+  const nextEl = document.getElementById("next");
+  const countEl = document.getElementById("count");
+
+  function compute(){
+    const now = new Date();
+    const diff = now - refStart;
+    const intervalMs = turnHours * 3600 * 1000;
+    const intervals = Math.floor(diff / intervalMs);
+    const owner = (intervals % 2 === 0) ? nameA : nameB;
+
+    const curStart = new Date(refStart.getTime() + intervals * intervalMs);
+    const nextSwitch = new Date(curStart.getTime() + intervalMs);
+    const remaining = nextSwitch - now;
+
+    const h = Math.floor(remaining / 3600000);
+    const m = Math.floor((remaining % 3600000) / 60000);
+    const s = Math.floor((remaining % 60000) / 1000);
+
+    // Color highlight
+    turnEl.textContent = `${owner} — it's your turn`;
+    turnEl.style.color = (owner === nameA) ? "#007bff" : "#e63946"; // blue for S, red for H
+    nextEl.textContent = "Next switch: " + nextSwitch.toLocaleString();
+    countEl.textContent = `Time left: ${h}h ${m}m ${s}s`;
+  }
+
+  compute();
+  setInterval(compute, 1000);
+})();
+</script>
+</body>
+</html>

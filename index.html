@@ -29,8 +29,8 @@
 <script>
 (function(){
   // SETTINGS
-  const nameA = "S";           // first person
-  const nameB = "H";           // second person
+  const nameA = "H";           // first person
+  const nameB = "S";           // second person
   const refStart = new Date(2025, 9, 27, 6, 0, 0); // (month is 0-based, so 9 = October)
   const turnHours = 24;        // switch every 24 hours
 
@@ -55,7 +55,7 @@
 
     // Color highlight
     turnEl.textContent = `${owner} — it's your turn`;
-    turnEl.style.color = (owner === nameA) ? "#007bff" : "#e63946"; // blue for S, red for H
+    turnEl.style.color = (owner === nameA) ? "#e63946"e63946 : "#007bff"; // blue for S, red for H
     nextEl.textContent = "Next switch: " + nextSwitch.toLocaleString();
     countEl.textContent = `Time left: ${h}h ${m}m ${s}s`;
   }
